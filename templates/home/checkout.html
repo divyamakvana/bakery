@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+{% block title%} Checkout - Bakeryshop Cart{% endblock %}
+{% block css %}
+    .badge{
+        background-color:rgb(224, 152, 16);
+        color:white;
+    }
+    .btn{
+        background-color:rgb(224, 152, 16);
+        color:white;
+    }
+    .btn:hover{
+        border: 2px solid rgb(224, 152, 16);
+        
+    }
+    .form-control {
+        border: 2px solid rgb(224, 152, 16); /* Set black border */
+        border-radius: 20px; /* Optional: gives rounded corners to inputs */
+    }
+    /* Focus effect */
+    .form-control:focus {
+        border-color: rgb(224, 152, 16); /* Yellow border color when focused */
+        box-shadow: 0 0 8px rgb(224, 152, 16); /* Light yellow shadow around the input */
+        outline: none; /* Removes the default outline */
+    }
+    .form{
+        border:2px solid rgb(224, 152, 16);
+        border-radius:20px;
+        height:40px;
+        max-width:60%;
+    }
+    .list{
+        border:2px solid rgb(224, 152, 16);
+        border-radius:20px;
+    }
+    .p{
+    margin-left: 10px;
+    padding-left: 4px;
+    margin-top: 2px;
+    margin-bottom: 6px;
+    padding-top: 4px;
+    }
+{% endblock css %}
+{% block body %}
+
+
+
+
+<div class="container">
+    <div class="col my-4">
+        <h2>Step 1 - Bakeryshop Cart Express Checkout - Review Your Cart Items</h2>
+        <div class="my-4">
+            <ul class="list-group list" id="items">
+            </ul>
+           <a href="/"> <button class="btn my-3">go to shop</button></a>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mt-3">
+                    <li class="breadcrumb-item active" aria-current="page">Your Cart Total Is <b><span id="totalPrice"></b>  </span>Enter your details below & place your order. Thanks for using My Awesome Cart!</li>
+             </ol>
+            </nav>
+            
+        </div>
+    </div>
+    <div class="col my-4">
+        <h2>Step 2 - Enter Address & Other Details:</h2>
+        <form method="post" action="/home/checkout/">{% csrf_token %}
+            <input type="hidden" name="itemsJson" id="itemsJson">
+            <input type="hidden" name="amount" id="amount">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputname">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Name" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputEmail4">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputAddress">Address</label>
+                <input type="text" class="form-control" id="address1" name="address1" placeholder="1234 Main St" required>
+            </div>
+            <div class="form-group">
+                <label for="inputAddress2">Address line 2</label>
+                <input type="text" class="form-control" id="address2" name="address2" placeholder="Apartment, studio, or floor">
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputCity">City</label>
+                    <input type="text" class="form-control" id="city" name="city" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="inputState">State</label>
+                    <input type="text" class="form-control" id="state" name="state"  placeholder="Enter State" required>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="inputZip">Zip</label>
+                    <input type="text" class="form-control" id="zip_code" name="zip_code" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputZip">Phone Number</label>
+                <input type="tel" class="form-control" id="phone" name="phone"required>
+            </div>
+            <button type="submit" class="btn ">Place Order</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+{% block js %}
+<script>
+if (localStorage.getItem('cart') == null) {
+    var cart = {};
+} else {
+    cart = JSON.parse(localStorage.getItem('cart'));
+}
+console.log("Cart contents:", cart);
+
+var sum = 0;
+var totalPrice = 0;
+
+if ($.isEmptyObject(cart)) {
+    // If the cart is empty
+    mystr = `<p class="p">Your cart is empty, please add some items to your cart before checking out!</p>`;
+    $('#items').append(mystr);
+} else {
+    for (item in cart) {
+        let name = cart[item][1];
+        let qty = parseInt(cart[item][0]);
+        
+        // Logging to verify the item price
+       // console.log("Item Price (before cleanup):", cart[item][2]);
+
+        // Clean the price by removing all non-numeric characters (except for the decimal point)
+        let itemPriceText = cart[item][2];
+        let itemPrice = parseFloat(itemPriceText.replace(/[^0-9.]/g, '').trim()); // Remove non-numeric characters and keep the decimal
+
+       // console.log("Cleaned Item Price (after cleanup):", itemPrice);  // Log to verify
+
+        // Check for NaN after cleaning the price
+       // if (isNaN(itemPrice)) {
+           // console.error("Error: Price is NaN for item:", name);
+      //  }
+
+        sum = sum + qty;
+        totalPrice = totalPrice + qty * itemPrice;
+
+        // Appending to the list of items
+        mystr = `<li class="list-group-item d-flex justify-content-between align-items-center">
+            ${name}
+            <span class="badge badge-primary badge-pill">${qty}</span>
+        </li>`;
+        $('#items').append(mystr);
+    }
+}
+
+// Update the displayed total price
+document.getElementById('cart').innerHTML = sum;
+document.getElementById('totalPrice').innerHTML = totalPrice;
+
+$('#itemsJson').val(JSON.stringify(cart));
+
+{% if thank %}
+alert('Thanks for ordering with us. Your order id is {{id}}. Use it to track your order using our order tracker');
+localStorage.clear();
+document.location = "/home";
+{% endif %}
+
+$('#amount').value($(#totalPrice).html())
+</script>
+{% endblock %}

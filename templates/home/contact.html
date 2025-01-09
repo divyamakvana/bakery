@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %} Contact{% endblock title %}
+
+{% block css %}
+.container{
+    background-color:#E8E9EB;
+    justify-content:center;
+   
+        margin-left: 25%;
+        margin-right:25%;
+        width: 50%;
+        padding-left:100px;
+        margin-bottom: 20px;
+   
+}
+h3{
+    padding:10px;
+    justify-content:center;
+    align-item:center;
+    text-align:center;
+}
+
+.mb-3{
+    padding-left:120px;
+    padding-top:10px;
+}
+    
+.form-control {
+    border: 2px solid white; /* Set black border */
+    border-radius: 20px; /* Optional: gives rounded corners to inputs */
+}
+/* Focus effect */
+.form-control:focus {
+    border-color: rgb(224, 152, 16); /* Yellow border color when focused */
+    box-shadow: 0 0 8px rgb(224, 152, 16); /* Light yellow shadow around the input */
+    outline: none; /* Removes the default outline */
+}
+.form{
+    border:2px solid rgb(224, 152, 16);
+    border-radius:20px;
+    height:40px;
+    max-width:60%;
+}
+
+.button {
+    border-color: rgb(224, 152, 16);
+    {% comment %} box-shadow: 0 0 8px rgb(224, 152, 16); {% endcomment %}
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 10px 15px;
+    background-color: white;
+    color: rgb(224, 152, 16);
+    border: 2px solid  rgb(224, 152, 16);
+    margin-top: 10px; 
+    margin-left: 120px;
+    margin-bottom:15px;
+   
+   
+}
+
+.button:hover {
+    background-color: rgb(224, 152, 16);
+    color: white;
+}
+
+{% endblock css %}
+
+{% block body %} 
+<div class="container my-3">
+    <h3>Contact BakeryShop Owner</h3>
+
+    <form method="post" action="/contact/">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="username" class="form-label">Name</label>
+            <input type="text" class="form-control form" id="username" name="username" aria-describedby="username" placeholder="Enter your name here">
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input type="email" class="form-control form" id="email" name="email" aria-describedby="emailHelp" placeholder="abc@gmail.com">
+            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="phone" class="form-label">Phone Number</label>
+            <input type="phone" class="form-control form" name="phone" id="phone" placeholder="Enter a mobile number">
+        </div>
+
+        <div class="mb-3">
+            <label for="content" class="form-label">Describe your issue</label>
+            <textarea class="form-control form" name="content" id="content" placeholder="Write your ideas here"></textarea>
+        </div>
+        
+        <button type="submit" class="button">Submit</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+
+{% block title %} About Us{% endblock %}
+{% block css %}
+.my-4{
+  padding-top: 20px;
+}
+img {
+  vertical-align: middle;
+  max-width: 450;
+  max-width: 450px;
+  height: 300px;
+  padding-left:30px;
+  margin-top:3px;
+}
+.jumbotron{
+  padding-top:10px;
+}
+
+{% endblock css %}
+{% block body %}
+{% load static %}
+
+<main role="main">
+
+  <!-- Main jumbotron for a primary marketing message or call to action -->
+  <div class="jumbotron">
+    <div class="container my-3">
+      <h1 class="display-3"><b>Bakeryshop- About Us </b></h1>
+      <div class="row">
+        <div class="col">
+         
+          <img src="{% static 'images/pastry.png' %}"  class="image">
+          <img src="{% static 'images/cooki.jpg' %}" class="image">
+          <img src="{% static 'images/cupcake.jpg' %}" class="image">
+        </div>
+      </div>
+      </div>
+  </div>
+
+  <div class="container">
+    <!-- Example row of columns -->
+    <div class="row">
+      <div class="col-md-4">
+        <h3>Welcome to Our Bakery</h3>
+        <h5>Where Every Bite is Made with Love</h5>
+        <p>
+          At Bakeryshop, we believe in the power of fresh, high-quality ingredients. Every loaf of bread, cake, and pastry that leaves our ovens is crafted with care, passion, and a commitment to excellence. Whether you're here for a quick snack, a celebratory cake, or your daily bread, we’ve got you covered.
+      </p>
+      
+      </div>
+      <div class="col-md-4">
+        <h3>Our Mission</h3>
+        <p>
+          At Bakeryshop, we aim to provide high-quality, fresh, and affordable baked goods for our community. We focus on using locally sourced ingredients, traditional techniques, and a creative touch to craft baked goods that bring people together.
+        </p>
+        
+       </div>
+      <div class="col-md-4">
+        <h3>Our Passion</h3>
+        <p>
+          We are passionate about baking, and it shows in everything we create. From savory breads to sweet pastries, we pour our hearts into every product we make. Our love for baking is at the core of who we are, and we are proud to share that with you.
+        </p>
+    
+      </div>
+    </div>
+
+    <hr>
+
+  </div> <!-- /container -->
+
+</main>
+
+
+
+
+
+{% endblock %}
